@@ -676,7 +676,7 @@ void CSyncDlg::OnBnClickedButtonPush()
 	CString error;
 	DWORD exitcode = 0xFFFFFFFF;
 	CHooks::Instance().SetProjectProperties(g_Git.m_CurrentDir, m_ProjectProperties);
-	if (CHooks::Instance().PrePush(g_Git.m_CurrentDir, exitcode, error))
+	if (CHooks::Instance().PrePush(GetSafeHwnd(), g_Git.m_CurrentDir, exitcode, error))
 	{
 		if (exitcode)
 		{
@@ -1558,7 +1558,7 @@ void CSyncDlg::RunPostAction()
 		DWORD exitcode = 0xFFFFFFFF;
 		CString error;
 		CHooks::Instance().SetProjectProperties(g_Git.m_CurrentDir, m_ProjectProperties);
-		if (CHooks::Instance().PostPush(g_Git.m_CurrentDir, exitcode, error))
+		if (CHooks::Instance().PostPush(GetSafeHwnd(), g_Git.m_CurrentDir, exitcode, error))
 		{
 			if (exitcode)
 			{

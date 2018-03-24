@@ -660,7 +660,7 @@ void CCommitDlg::OnOK()
 		CString error;
 		CTGitPathList list;
 		m_ListCtrl.WriteCheckedNamesToPathList(list);
-		if (CHooks::Instance().PreCommit(g_Git.m_CurrentDir, list, m_sLogMessage, exitcode, error))
+		if (CHooks::Instance().PreCommit(GetSafeHwnd(), g_Git.m_CurrentDir, list, m_sLogMessage, exitcode, error))
 		{
 			if (exitcode)
 			{
@@ -1151,7 +1151,7 @@ void CCommitDlg::OnOK()
 			DWORD exitcode = 0xFFFFFFFF;
 			CString error;
 			CHooks::Instance().SetProjectProperties(g_Git.m_CurrentDir, m_ProjectProperties);
-			if (CHooks::Instance().PostCommit(g_Git.m_CurrentDir, amend.IsEmpty(), exitcode, error))
+			if (CHooks::Instance().PostCommit(GetSafeHwnd(), g_Git.m_CurrentDir, amend.IsEmpty(), exitcode, error))
 			{
 				if (exitcode)
 				{
@@ -2882,7 +2882,7 @@ bool CCommitDlg::RunStartCommitHook()
 	DWORD exitcode = 0xFFFFFFFF;
 	CString error;
 	CHooks::Instance().SetProjectProperties(g_Git.m_CurrentDir, m_ProjectProperties);
-	if (CHooks::Instance().StartCommit(g_Git.m_CurrentDir, m_pathList, m_sLogMessage, exitcode, error))
+	if (CHooks::Instance().StartCommit(GetSafeHwnd(), g_Git.m_CurrentDir, m_pathList, m_sLogMessage, exitcode, error))
 	{
 		if (exitcode)
 		{
