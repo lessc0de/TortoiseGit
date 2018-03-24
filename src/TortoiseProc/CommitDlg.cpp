@@ -654,6 +654,7 @@ void CCommitDlg::OnOK()
 	if (CAppUtils::MessageContainsConflictHints(GetSafeHwnd(), m_sLogMessage))
 		return;
 
+	CHooks::Instance().SetProjectProperties(g_Git.m_CurrentDir, m_ProjectProperties);
 	if (CHooks::Instance().IsHookPresent(pre_commit_hook, g_Git.m_CurrentDir)) {
 		DWORD exitcode = 0xFFFFFFFF;
 		CString error;
@@ -1149,6 +1150,7 @@ void CCommitDlg::OnOK()
 		{
 			DWORD exitcode = 0xFFFFFFFF;
 			CString error;
+			CHooks::Instance().SetProjectProperties(g_Git.m_CurrentDir, m_ProjectProperties);
 			if (CHooks::Instance().PostCommit(g_Git.m_CurrentDir, amend.IsEmpty(), exitcode, error))
 			{
 				if (exitcode)
@@ -2879,6 +2881,7 @@ bool CCommitDlg::RunStartCommitHook()
 {
 	DWORD exitcode = 0xFFFFFFFF;
 	CString error;
+	CHooks::Instance().SetProjectProperties(g_Git.m_CurrentDir, m_ProjectProperties);
 	if (CHooks::Instance().StartCommit(g_Git.m_CurrentDir, m_pathList, m_sLogMessage, exitcode, error))
 	{
 		if (exitcode)
