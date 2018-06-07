@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2009-2017 - TortoiseGit
+// Copyright (C) 2009-2018 - TortoiseGit
 // Copyright (C) 2003-2013 - TortoiseSVN
 
 // This program is free software; you can redistribute it and/or
@@ -214,6 +214,10 @@ BOOL CRepositoryBrowser::OnInitDialog()
 	m_ColumnManager.ReadSettings(dwDefaultColumns, 0, L"RepoBrowser", _countof(columnNames), columnWidths);
 	m_ColumnManager.SetRightAlign(2);
 
+	LOGFONT lf = { 0 };
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, 0, &lf, FALSE);
+	m_Font.CreateFontIndirect(&lf);
+
 	// set up the list control
 	// set the extended style of the list control
 	// the style LVS_EX_FULLROWSELECT interferes with the background watermark image but it's more important to be able to select in the whole row.
@@ -223,11 +227,13 @@ BOOL CRepositoryBrowser::OnInitDialog()
 		exStyle |= LVS_EX_FULLROWSELECT;
 	m_RepoList.SetExtendedStyle(exStyle);
 	m_RepoList.SetImageList(&SYS_IMAGE_LIST(), LVSIL_SMALL);
+	m_RepoList.SetFont(&m_Font);
 	CAppUtils::SetListCtrlBackgroundImage(m_RepoList.GetSafeHwnd(), IDI_REPOBROWSER_BKG);
 
 	m_RepoTree.SetImageList(&SYS_IMAGE_LIST(), TVSIL_NORMAL);
 	exStyle = TVS_EX_FADEINOUTEXPANDOS | TVS_EX_AUTOHSCROLL | TVS_EX_DOUBLEBUFFER;
 	m_RepoTree.SetExtendedStyle(exStyle, exStyle);
+	m_RepoTree.SetFont(&m_Font);
 
 	m_nExternalOvl = SYS_IMAGE_LIST().AddIcon((HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_EXTERNALOVL), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE));
 	m_nExecutableOvl = SYS_IMAGE_LIST().AddIcon((HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_EXECUTABLEOVL), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE));

@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2009-2011, 2013, 2015-2017 TortoiseGit
+// Copyright (C) 2009-2011, 2013, 2015-2018 TortoiseGit
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -34,11 +34,8 @@ void CRefLogList::InsertRefLogColumn()
 {
 	CString temp;
 
-	CRegDWORD regFullRowSelect(L"Software\\TortoiseGit\\FullRowSelect", TRUE);
-	DWORD exStyle = LVS_EX_HEADERDRAGDROP | LVS_EX_DOUBLEBUFFER | LVS_EX_INFOTIP | LVS_EX_SUBITEMIMAGES;
-	if (DWORD(regFullRowSelect))
-		exStyle |= LVS_EX_FULLROWSELECT;
-	SetExtendedStyle(exStyle);
+	Init();
+	SetStyle();
 
 	static UINT normal[] =
 	{
@@ -60,6 +57,14 @@ void CRefLogList::InsertRefLogColumn()
 	m_dwDefaultColumns = 0xFFFF;
 
 	SetRedraw(false);
+
+	// use the default font, create a copy of it and
+	// change the copy to BOLD (leave the rest of the font
+	// the same)
+	LOGFONT lf = { 0 };
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, 0, &lf, FALSE);
+	m_Font.CreateFontIndirect(&lf);
+	SetFont(&m_Font);
 
 	m_ColumnManager.SetNames(normal, _countof(normal));
 	m_ColumnManager.ReadSettings(m_dwDefaultColumns, 0, m_ColumnRegKey + L"loglist", _countof(normal), with);

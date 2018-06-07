@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2015-2017 - TortoiseGit
+// Copyright (C) 2015-2018 - TortoiseGit
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -93,6 +93,10 @@ void CGitTagCompareList::Init()
 	colTheirMessage = InsertColumn(index++, CString(MAKEINTRESOURCE(IDS_TAGCOMPARE_REMOTEMESSAGE)));
 
 	SetWindowTheme(m_hWnd, L"Explorer", nullptr);
+	LOGFONT lf = { 0 };
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, 0, &lf, FALSE);
+	m_Font.CreateFontIndirect(&lf);
+	SetFont(&m_Font);
 
 	if (!!CRegDWORD(L"Software\\TortoiseGit\\SortTagsReversed", 0, false, HKEY_LOCAL_MACHINE) || !!CRegDWORD(L"Software\\TortoiseGit\\SortTagsReversed", 0, false, HKEY_CURRENT_USER))
 	{

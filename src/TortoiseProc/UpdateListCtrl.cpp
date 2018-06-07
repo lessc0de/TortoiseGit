@@ -39,7 +39,9 @@ void CUpdateListCtrl::PreSubclassWindow()
 	// change the copy to BOLD (leave the rest of the font
 	// the same)
 	LOGFONT lf = { 0 };
-	GetFont()->GetLogFont(&lf);
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, 0, &lf, FALSE);
+	m_Font.CreateFontIndirect(&lf);
+	SetFont(&m_Font);
 	lf.lfWeight = FW_BOLD;
 	m_boldFont.CreateFontIndirect(&lf);
 }

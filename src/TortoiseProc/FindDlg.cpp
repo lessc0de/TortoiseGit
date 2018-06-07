@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2011-2016 - TortoiseGit
+// Copyright (C) 2011-2016, 2018 - TortoiseGit
 // Copyright (C) 2006 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
@@ -141,6 +141,11 @@ BOOL CFindDlg::OnInitDialog()
 	CImageList *imagelist = new CImageList();
 	imagelist->Create(IDB_BITMAP_REFTYPE,16,3,RGB(255,255,255));
 	this->m_ctrlRefList.SetImageList(imagelist,LVSIL_SMALL);
+
+	LOGFONT lf = { 0 };
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, 0, &lf, FALSE);
+	m_Font.CreateFontIndirect(&lf);
+	m_ctrlRefList.SetFont(&m_Font);
 
 	CRect rect;
 	m_ctrlRefList.GetClientRect(&rect);

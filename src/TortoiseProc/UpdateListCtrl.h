@@ -50,6 +50,7 @@ public:
 		}
 	};
 
+	CFont				m_Font;
 	CFont				m_boldFont;
 
 protected:

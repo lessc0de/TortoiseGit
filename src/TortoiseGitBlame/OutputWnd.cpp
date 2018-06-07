@@ -56,11 +56,8 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	NONCLIENTMETRICS metrics = { 0 };
-	metrics.cbSize = sizeof(NONCLIENTMETRICS);
-	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &metrics, FALSE);
 	LOGFONT lf = { 0 };
-	memcpy_s(&lf, sizeof(LOGFONT), &metrics.lfMessageFont, sizeof(LOGFONT));
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, 0, &lf, FALSE);
 	m_Font.CreateFontIndirect(&lf);
 
 	CRect rectDummy;
@@ -77,8 +74,6 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// for some unknown reason, the SetExtendedStyle in OnCreate/PreSubclassWindow is not working here
 	m_LogList.SetStyle();
-
-	m_LogList.SetFont(&m_Font);
 
 	m_Gravatar.Create(L"", WS_CHILD | WS_VISIBLE, rectDummy, this);
 	bool bEnableGravatar = !!CRegDWORD(L"Software\\TortoiseGit\\EnableGravatar", FALSE);

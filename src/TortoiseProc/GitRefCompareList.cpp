@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2013-2017 - TortoiseGit
+// Copyright (C) 2013-2018 - TortoiseGit
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -89,6 +89,11 @@ void CGitRefCompareList::Init()
 	SetImageList(imagelist, LVSIL_SMALL);
 
 	SetWindowTheme(m_hWnd, L"Explorer", nullptr);
+
+	LOGFONT lf = { 0 };
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, 0, &lf, FALSE);
+	m_Font.CreateFontIndirect(&lf);
+	SetFont(&m_Font);
 }
 
 int CGitRefCompareList::AddEntry(git_repository* repo, const CString& ref, const CGitHash* oldHash, const CGitHash* newHash)

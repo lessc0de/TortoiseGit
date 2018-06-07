@@ -50,6 +50,7 @@ public:
 
 	DWORD GetMenuMask(int x){return 1<<x;}
 
+	CFont				m_Font;
 	CFont				m_boldFont;
 
 protected:

@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2009-2017 - TortoiseGit
+// Copyright (C) 2009-2018 - TortoiseGit
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -236,6 +236,8 @@ private:
 
 	DWORD	m_DateFormat;		// DATE_SHORTDATE or DATE_LONGDATE
 	bool	m_bRelativeTimes;	// Show relative times
+
+	CFont	m_Font;
 
 public:
 	static CString	PickRef(bool returnAsHash = false, CString initialRef = CString(), int pickRef_Kind = gPickRef_All, bool pickMultipleRefsOrRange = false);

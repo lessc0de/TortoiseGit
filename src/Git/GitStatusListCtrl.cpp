@@ -272,21 +272,17 @@ CGitStatusListCtrl::CGitStatusListCtrl() : CResizableColumnsListCtrl<CListCtrl>(
 	, m_nLineAdded(0)
 	, m_nLineDeleted(0)
 	, m_nBlockItemChangeHandler(0)
-	, m_uiFont(nullptr)
 {
 	m_critSec.Init();
 	m_bNoAutoselectMissing = CRegDWORD(L"Software\\TortoiseGit\\AutoselectMissingFiles", FALSE) == TRUE;
 
-	NONCLIENTMETRICS metrics = { 0 };
-	metrics.cbSize = sizeof(NONCLIENTMETRICS);
-	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &metrics, FALSE);
-	m_uiFont = CreateFontIndirect(&metrics.lfMessageFont);
+	LOGFONT lf = { 0 };
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, 0, &lf, FALSE);
+	m_Font.CreateFontIndirect(&metrics.lfMessageFont);
 }
 
 CGitStatusListCtrl::~CGitStatusListCtrl()
 {
-	if (m_uiFont)
-		DeleteObject(m_uiFont);
 	ClearStatusArray();
 }
 
@@ -327,6 +323,7 @@ void CGitStatusListCtrl::Init(DWORD dwColumns, const CString& sColumnInfoContain
 	exStyle |= (bHasCheckboxes ? LVS_EX_CHECKBOXES : 0);
 	SetRedraw(false);
 	SetExtendedStyle(exStyle);
+	SetFont(&m_Font);
 	CResizableColumnsListCtrl::Init();
 
 	SetWindowTheme(m_hWnd, L"Explorer", nullptr);
@@ -3300,7 +3297,7 @@ void CGitStatusListCtrl::OnPaint()
 			memDC.SetBkColor(clrTextBk);
 			memDC.BitBlt(rc.left, rc.top, rc.Width(), rc.Height(), pDC, rc.left, rc.top, SRCCOPY);
 			rc.top += 10;
-			CGdiObject* oldfont = memDC.SelectObject(CGdiObject::FromHandle(m_uiFont));
+			CGdiObject* oldfont = memDC.SelectObject(&m_Font);
 			memDC.DrawText(str, rc, DT_CENTER | DT_VCENTER |
 				DT_WORDBREAK | DT_NOPREFIX | DT_NOCLIP);
 			memDC.SelectObject(oldfont);

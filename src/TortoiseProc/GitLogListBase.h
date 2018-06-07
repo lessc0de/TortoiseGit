@@ -715,6 +715,7 @@ protected:
 	HICON				m_hDeletedIcon;
 	HICON				m_hFetchIcon;
 
+	CFont				m_Font;
 	CFont				m_boldFont;
 	CFont				m_FontItalics;
 	CFont				m_boldItalicsFont;

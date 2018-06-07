@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2015-2017 - TortoiseGit
+// Copyright (C) 2015-2018 - TortoiseGit
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -75,4 +75,6 @@ private:
 
 	bool	m_bAscending;		///< sort direction
 	int		m_nSortedColumn;	///< which column to sort
+
+	CFont	m_Font;
 };
